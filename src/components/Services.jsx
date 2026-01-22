@@ -22,7 +22,7 @@ function Services() {
       icon: 'fa-baby',
       image: 'https://img1.wsimg.com/isteam/ip/824a7eea-7a45-427d-b622-c7b1c31e37f3/IMG_1066.jpeg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25',
       title: 'Baby Shower',
-      description: 'Joyful baby shower celebrations for expecting parents.'
+      description: 'Joyful Baby Shower celebrations for expecting parents.'
     },
     {
       icon: 'fa-heart-pulse',
