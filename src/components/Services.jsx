@@ -16,7 +16,7 @@ function Services() {
       icon: 'fa-heart',
       image: 'https://floweraura-blog-img.s3.ap-south-1.amazonaws.com/Balloons.jpeg',
       title: 'Anniversary',
-      description: 'Romantic anniversary celebrations and milestone events.'
+      description: 'Romantic Anniversary Celebrations and Milestone events.'
     },
     {
       icon: 'fa-baby',
