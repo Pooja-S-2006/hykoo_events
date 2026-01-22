@@ -34,7 +34,7 @@ function Services() {
       icon: 'fa-certificate',
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwCMd-zVn7d9wn4oj_ueroIkOCPCJ0C2CkZQ&s',
       title: 'Naming Ceremony',
-      description: 'Traditional naming ceremonies for newborns.'
+      description: 'Traditional Naming Ceremonies for newborns.'
     },
     {
       icon: 'fa-hand-sparkles',
