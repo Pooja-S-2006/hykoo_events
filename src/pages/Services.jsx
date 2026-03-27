@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SectionTitle from '@/components/SectionTitle';
 import { X, Check, Calendar, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -104,6 +104,7 @@ const services = [
 ];
 
 const Services = () => {
+  const serviceRefs = useRef({});
   const [selectedService, setSelectedService] = useState(null);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [bookedPackage, setBookedPackage] = useState(null);
@@ -125,6 +126,39 @@ const Services = () => {
     budget: ''
   });
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
+
+  useEffect(() => {
+    // Check if we need to scroll to a specific service
+    const targetService = sessionStorage.getItem('targetService');
+    console.log('Target service found:', targetService);
+    if (targetService) {
+      // Clear the stored target
+      sessionStorage.removeItem('targetService');
+      
+      // Map category names to service titles
+      const categoryToServiceMap = {
+        'Wedding': 'Wedding Celebrations',
+        'Corporate': 'Corporate Events',
+        'Birthday': 'Birthday Parties',
+        'Cultural': 'Cultural Events'
+      };
+      
+      const serviceTitle = categoryToServiceMap[targetService];
+      console.log('Mapped service title:', serviceTitle);
+      if (serviceTitle && serviceRefs.current[serviceTitle]) {
+        // Small delay to ensure the page is fully loaded
+        setTimeout(() => {
+          console.log('Scrolling to service:', serviceTitle);
+          serviceRefs.current[serviceTitle].scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }, 100);
+      } else {
+        console.log('Service ref not found for:', serviceTitle);
+      }
+    }
+  }, []);
 
   const handlePackageSelect = (packageName) => {
     setSelectedPackage(packageName);
@@ -363,6 +397,7 @@ const Services = () => {
             return (
               <div
                 key={service.id}
+                ref={(el) => serviceRefs.current[service.title] = el}
                 className={`bg-card rounded-xl shadow-soft border-2 overflow-hidden hover:shadow-lg transition-all duration-300 ${
                   isBooked
                     ? 'border-green-500 bg-gradient-to-br from-green-50 to-emerald-50'

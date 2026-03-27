@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SectionTitle from '@/components/SectionTitle';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 
 import heroWedding from '@/assets/hero-wedding.jpg';
 import heroCorporate from '@/assets/hero-corporate.jpg';
@@ -25,9 +26,18 @@ const defaultPortfolioItems = [
 const categories = ['All', 'Wedding', 'Corporate', 'Birthday', 'Cultural'];
 
 const Portfolio = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedImage, setSelectedImage] = useState(null);
   const [portfolioItems, setPortfolioItems] = useState(defaultPortfolioItems);
+
+  const handleNavigateToServices = (category) => {
+    console.log('Navigating to services for category:', category);
+    // Navigate to services page and scroll to the specific event type
+    navigate('/services');
+    // Store the target category in sessionStorage to scroll to it after page loads
+    sessionStorage.setItem('targetService', category);
+  };
 
   useEffect(() => {
     // Load uploaded images from localStorage
@@ -77,8 +87,7 @@ const Portfolio = () => {
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105"
-              onClick={() => setSelectedImage(item)}
+              className="group relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105"
             >
               <img
                 src={item.image}
@@ -88,8 +97,30 @@ const Portfolio = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                   <h3 className="font-semibold text-lg">{item.title}</h3>
-                  <p className="text-sm opacity-90">{item.category}</p>
+                  <p className="text-sm opacity-90 mb-3">{item.category}</p>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNavigateToServices(item.category);
+                    }}
+                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1 rounded-full text-sm transition-colors"
+                  >
+                    View Services
+                    <ArrowRight size={14} />
+                  </button>
                 </div>
+              </div>
+              {/* Arrow button - always visible */}
+              <div className="absolute bottom-4 right-4 transition-opacity duration-300">
+                <button
+                  onClick={() => {
+                    console.log('Arrow button clicked for category:', item.category);
+                    handleNavigateToServices(item.category);
+                  }}
+                  className="bg-primary hover:bg-primary/90 text-white p-2 rounded-full transition-colors shadow-lg"
+                  title={`View ${item.category} Services`}
+                >
+                </button>
               </div>
             </div>
           ))}

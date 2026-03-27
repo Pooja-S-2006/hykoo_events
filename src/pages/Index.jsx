@@ -1,7 +1,7 @@
 import HeroCarousel from '@/components/HeroCarousel';
 import SectionTitle from '@/components/SectionTitle';
 import ServiceCard from '@/components/ServiceCard';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Heart, Award, Users, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import heroWedding from '@/assets/hero-wedding.jpg';
@@ -38,6 +38,24 @@ const services = [
 // Stats section removed as requested
 
 const Index = () => {
+  const navigate = useNavigate();
+
+  const handleNavigateToServices = (serviceTitle) => {
+    // Map service titles to categories
+    const categoryMap = {
+      'Weddings': 'Wedding',
+      'Corporate Events': 'Corporate',
+      'Birthday Celebrations': 'Birthday',
+      'Cultural Ceremonies': 'Cultural'
+    };
+    
+    const category = categoryMap[serviceTitle];
+    if (category) {
+      navigate('/services');
+      sessionStorage.setItem('targetService', category);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Carousel - Grand Indian Wedding/Event Aesthetic */}
@@ -195,7 +213,13 @@ const Index = () => {
                     {service.description}
                   </p>
                   <div className="flex justify-center">
-                    <ArrowRight className="w-5 h-5 text-[hsl(78_31%_33%)] group-hover:text-[hsl(40_60%_50%)] transition-colors duration-500" />
+                    <button
+                      onClick={() => handleNavigateToServices(service.title)}
+                      className="cursor-pointer hover:scale-110 transition-transform duration-300"
+                      title={`View ${service.title} Services`}
+                    >
+                      <ArrowRight className="w-5 h-5 text-[hsl(78_31%_33%)] group-hover:text-[hsl(40_60%_50%)] transition-colors duration-500" />
+                    </button>
                   </div>
                 </div>
               </div>
